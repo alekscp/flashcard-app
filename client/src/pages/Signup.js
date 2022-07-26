@@ -20,7 +20,7 @@ export default function Signup() {
       .then((response) => {
         const userId = response.data._id;
         // redirect to login
-        navigate(`/${userId}/dashboard`);
+        navigate(`/user/${userId}/dashboard`);
       })
       .catch((err) => {
         const errorDescription = err.response.data.message;

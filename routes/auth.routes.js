@@ -44,7 +44,7 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-router.get("/:userId/myCollections", (req, res) => {
+router.get("/user/:userId/myCollections", (req, res) => {
   const { userId } = req.params
   console.log({ userId})
   res.json({})
@@ -52,38 +52,32 @@ router.get("/:userId/myCollections", (req, res) => {
 
 
 
-router.post("/:userId/newCollection", (req, res) => {
-  const { userId } = req.params
-  console.log({ userId })
-  const { title } = req.body;
-  console.log({body: req.body })
+// NOTE: By convention a url param must have a keyword in front of it.
+// eg.: /user/:userId -> Good
+// eg.: /:userId -> Bad
+router.post("/user/:userId/newCollection", async (req, res) => {
+  try {
+    const { userId } = req.params
+    const { title } = req.body;
 
-  if (!title) {
-    res.status(400).json({ message: "Collection needs a title!" });
-    return;
-  }
-  return Collection.create({ title, flashcardNumber: 0, flashcards: [] })
-  .then((createdCollection) => {
-      const { title, flashcardNumber, flashcards, _id, userId } = createdCollection;
-      const newCollection = { title, flashcardNumber, flashcards, _id };
-      const newCollectionId = newCollection._id.toString();
-      res.status(201).json(newCollection);
-      User.findByIdAndUpdate(
-        userId,
-        {
-          $push: { collections: { title: title, flashcardNumber: flashcardNumber, flashcards: flashcards } },
-        },
+    if (!title) {
+      res.status(400).json({ message: "Collection needs a title!" });
+      return;
+    }
 
-        { safe: true, upsert: true },
-        function (err, model) {
-          console.log(err);
-        }
-      );
+    const newCollection = await Collection.create({ title, flashcardNumber: 0, flashcards: [] })
+
+    await User.findByIdAndUpdate(mongoose.Types.ObjectId(userId), {
+      $push: { 
+        collections: { title: title, flashcardNumber: 0, flashcards: [] }
+      },
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ message: "Internal Server Error" });
-    });
+
+    res.status(201).json(newCollection)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 router.post("/newFlashard", (req, res) => {

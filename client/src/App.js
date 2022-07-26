@@ -16,9 +16,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/:userId/dashboard" element={<Dashboard />} />
-        <Route path="/:userId/new-collection" element={<NewCollection />} />
-        <Route path="/:userId/my-collections" element={<MyCollections />} />
+        <Route path="/user/:userId/dashboard" element={<Dashboard />} />
+        <Route path="/user/:userId/new-collection" element={<NewCollection />} />
+        <Route path="/user/:userId/my-collections" element={<MyCollections />} />
         <Route path="/:userId/:newCollectionId/new-card/" element={<NewCard />} />
       </Routes>
     </div>

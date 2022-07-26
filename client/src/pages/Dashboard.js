@@ -7,9 +7,9 @@ export default function Dashboard() {
   return (
     <div>
       <h1>This is the dashboard page</h1>
-      <Link to={`/${userId}/new-collection`}>New Collection</Link>
+      <Link to={`/user/${userId}/new-collection`}>New Collection</Link>
       <br></br>
-      <Link to='/:userId/my-collections '>My Collections</Link>
+      <Link to='/user/:userId/my-collections'>My Collections</Link>
     </div>
   );
 }
