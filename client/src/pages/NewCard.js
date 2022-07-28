@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { AuthContext } from "../context/auth";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function NewCard() {
@@ -17,8 +16,8 @@ export default function NewCard() {
     e.preventDefault();
     const requestBody = { title, front, back, newCollectionId };
     axios
-      .post(`http://localhost:5005/api/user/${userId}/collection/${newCollectionId}/newFlashard`, requestBody)
-      .then((response) => {
+      .post(`${process.env.REACT_APP_BACKEND_URI}/api/user/${userId}/collection/${newCollectionId}/newFlashard`, requestBody)
+      .then(() => {
         navigate(`/${userId}/${newCollectionId}/new-card`);
         window.location.reload();
       })
@@ -50,7 +49,6 @@ export default function NewCard() {
           type="button"
           onClick={(e) => {
             e.preventDefault();
-            const requestBody = { title, front, back, newCollectionId };
             // axios
             //   .post(`http://localhost:5005/api/user/${userId}/collection/${newCollectionId}/newFlashard`, requestBody)
             //   .then((response) => {

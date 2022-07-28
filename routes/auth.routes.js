@@ -2,13 +2,9 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const mongoose = require("mongoose");
 const User = require("../models/User.model");
-const Flashcard = require("../models/Flashcard.model");
-const Collection = require("../models/Collection.model");
-const res = require("express/lib/response");
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", (req, res) => {
   const { email, password, name } = req.body;
   console.log({ body: req.body });
   if (email === "" || password === "" || name === "") {
@@ -44,7 +40,7 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-router.post("/login", (req, res, next) => {
+router.post("/login", (req, res) => {
   const { email, password } = req.body;
   if (email === "" || password === "") {
     res.status(400).json({ message: "Provide email and password" });
@@ -53,7 +49,6 @@ router.post("/login", (req, res, next) => {
   User.findOne({ email })
     .then((foundUser) => {
       if (!foundUser) {
-        console.log("bru");
         res.status(400).json({ message: "User not found" });
         return;
       }
@@ -61,6 +56,7 @@ router.post("/login", (req, res, next) => {
       if (passwordCorrect) {
         const { _id, email, name } = foundUser;
         const payload = { _id, email, name };
+        // NOTE: JWT Token is declared here, but still needs to be implemented in the app's flow
         const authToken = jwt.sign(payload, process.env.JWT_SECRET, {
           algorithm: "HS256",
           expiresIn: "12h",

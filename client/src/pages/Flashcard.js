@@ -1,12 +1,6 @@
 import { React, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import "../assets/css/flashcard.css"
 
-// export default function Flashcard(props) {
-//   const [flip, setFlip] = useState(false);
-//   const { userId } = useParams();
-//   const { collectionId } = useParams();
-//   console.log(props);
 const Flashcard = ({ flashcard }) => {
   const [flip, setFlip] = useState(false);
 
@@ -23,5 +17,5 @@ const Flashcard = ({ flashcard }) => {
     </>
   );
 };
+
 export default Flashcard;
-// }

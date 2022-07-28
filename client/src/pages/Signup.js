@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import css from "../assets/css/signup.css";
-import main from "../assets/main.png";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -16,7 +14,7 @@ export default function Signup() {
     e.preventDefault();
     const requestBody = { email, password, name };
     axios
-      .post("http://localhost:5005/api/auth/signup", requestBody)
+      .post(`${process.env.REACT_APP_BACKEND_URI}/api/auth/signup`, requestBody)
       .then((response) => {
         const userId = response.data._id;
         // redirect to login
@@ -60,8 +58,6 @@ export default function Signup() {
         </div>
 
         {errorMessage && <p>{errorMessage}</p>}
-
-       
       </div>
     </>
   );

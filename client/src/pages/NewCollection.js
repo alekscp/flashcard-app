@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 export default function NewCollection() {
@@ -12,7 +12,7 @@ export default function NewCollection() {
     const handleSubmit = e => {
         e.preventDefault()
 		const requestBody = { title }
-		axios.post(`http://localhost:5005/api/user/${userId}/newCollection`, requestBody)
+		axios.post(`${process.env.REACT_APP_BACKEND_URI}/api/user/${userId}/newCollection`, requestBody)
         .then(response => {
             const newCollectionId = response.data._id
 				navigate(`/${userId}/${newCollectionId}/new-card`)

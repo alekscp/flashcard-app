@@ -16,7 +16,7 @@ export default function Login() {
 	const handleSubmit = e => {
 		e.preventDefault()
 		const requestBody = { email, password }
-		axios.post('http://localhost:5005/api/login', requestBody)
+		axios.post(`${process.env.REACT_APP_BACKEND_URI}/api/login`, requestBody)
 			.then(response => {
 				const userId = response.data._id
 				// redirect to projects
